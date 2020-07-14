@@ -1,0 +1,12 @@
+[submodule "artemis"]
+	path = artemis
+	url = https://github.com/luav/artemis.git
+[submodule "leto"]
+	path = leto
+	url = https://github.com/formicidae-tracker/leto.git
+[submodule "hermes"]
+	path = hermes
+	url = https://github.com/formicidae-tracker/hermes.git
+[submodule "fort-configuration"]
+	path = fort-configuration
+	url = https://github.com/luav/fort-configuration.git
