@@ -58,6 +58,7 @@ NBUILDS=0  # The number of all builds
 # Build ant tracking app
 ERR_ARTM=0
 # -p to omit error if the directory is already exists
+# Note: -j 4 (> 1) is not supported by artemis
 cd artemis && \
 mkdir -p build && \
 cd build && cmake .. && make && \

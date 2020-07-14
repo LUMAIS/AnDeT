@@ -58,7 +58,16 @@ sudo apt-get install -y libprotobuf-dev libopencv-dev libeigen3-dev libgoogle-gl
 echo "Installing build environment for FORT:leto (live tracking video and tracking configuration) ..."
 sudo apt-get install -y golang
 
-## TODO: Euresys driver install
+# Euresys CoaxLink driver dependencies
+# See coaxlink-linux-x86_64-12.6.2.73$ ./shell/check-install.sh
+echo "Installing environment for the Euresys CoaxLink ..."
+sudo apt-get install -y libtinfo5 libgconf-2-4
+if [ -f '/opt/euresys/coaxlink/shell/setup_gentl_paths.sh' ]; then
+	. /opt/euresys/coaxlink/shell/setup_gentl_paths.sh
+else
+	echo "ERROR: environment variables initialization script of the Euresys CoaxLink driver is not found"
+	ERR=2  # ENOENT = 2 = No such file or directory
+fi
 #echo "Installing the build environment for FORT:artemis (FORmicidae Tracker) ..."
 ## Note: requires some FORT:hermes dependences: libprotobuf-dev libasio-dev
 ## NOTE: requires installation of Euresys grabber drivers
