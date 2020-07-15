@@ -31,7 +31,7 @@ To build all components for the first time, installing all requirements:
 $ ./build.sh -i
 ```
 
-For the subsequent builds of all components, or of the specified one:
+For the subsequent builds of all components:
 ```
 $ ./build.sh
 ```

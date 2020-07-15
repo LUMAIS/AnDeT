@@ -6,9 +6,6 @@
 #
 # \author Artem Lutov <lutov.analytics@gmail.com>
 
-# build [-i,--initial] [component]
-# components: artemis fort-tags hermes leto olympus
-
 USAGE="$0 [-h,--help] | [-i,--init]
   -h,--help  - help, show this usage description
   -i,--init  - initialize the build environment, which should be done only when building the project for the first time
