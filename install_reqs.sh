@@ -13,18 +13,24 @@
 git submodule update --init --recursive
 
 # Common development packages required to build executables
-echo "Installing common build environment ..."
-ERR=`make --version`
+echo "Checking and installing common build environment ..."
+echo "-- make --"
+make --version
+ERR=$?
 if [ $ERR -ne 0 ]; then
 	sudo apt-get install -y build-essential	make g++ cmake bc
 fi
 
-ERR=`g++ --version`
+echo "-- g++ --"
+g++ --version
+ERR=$?
 if [ $ERR -ne 0 ]; then
 	sudo apt-get install -y g++
 fi
 
-ERR=`cmake --version`
+echo "-- cmake --"
+cmake --version
+ERR=$?
 if [ $ERR -ne 0 ]; then
 	sudo apt-get install -y cmake bc
 fi
@@ -44,29 +50,78 @@ if [ $RES -eq 0 ]; then
 fi
 
 # Component-specific requirements
-echo "Installing build environment for FORT:hermes (tracking data format) ..."
-sudo apt-get install -y golang libprotobuf-dev libasio-dev
+# hermes (tracking data format)
+whereis go | grep go > /dev/null
+ERR=$?
+if [ $ERR -eq 0 ]; then
+	whereis libprotobuf | grep libprotobuf > /dev/null
+	ERR=$?
+fi
+if [ $ERR -eq 0 ]; then
+	whereis asio | grep asio > /dev/null
+	ERR=$?
+fi
+if [ $ERR -ne 0 ]; then
+	echo "Installing build environment for hermes (tracking data format) ..."
+	sudo apt-get install -y golang libprotobuf-dev libasio-dev
+fi
 
-echo "Installing build environment for FORT:artemis (tracking data format) ..."
-sudo apt-get install -y libprotobuf-dev libopencv-dev libeigen3-dev libgoogle-glog-dev
+# artemis (object detection and tracking)
+whereis libprotobuf | grep libprotobuf > /dev/null
+ERR=$?
+if [ $ERR -eq 0 ]; then
+	# Note: opencv is not detectable via `whereis``
+	dpkg -l | grep libopencv > /dev/null
+	ERR=$?
+fi
+if [ $ERR -eq 0 ]; then
+	whereis eigen3 | grep eigen3 > /dev/null
+	ERR=$?
+fi
+if [ $ERR -eq 0 ]; then
+	whereis glog | grep glog > /dev/null
+	ERR=$?
+fi
+if [ $ERR -ne 0 ]; then
+	echo "Installing build environment for artemis (object detection and tracking) ..."
+	sudo apt-get install -y libprotobuf-dev libopencv-dev libeigen3-dev libgoogle-glog-dev
+fi
+
 #  libasio-dev
 # https://github.com/formicidae-tracker/fort-configuration/search?q=REQUIRED&unscoped_q=REQUIRED
 # 'libopencv-imgproc-dev', 'libopencv-highgui-dev'
 # , 'libboost-dev'
 # , 'google-mock', 'ffmpeg'
 
-echo "Installing build environment for FORT:leto (live tracking video and tracking configuration) ..."
-sudo apt-get install -y golang
+# leto (live tracking video and tracking configuration)
+whereis go | grep go > /dev/null
+ERR=$?
+if [ $ERR -ne 0 ]; then
+	echo "Installing build environment for leto (live tracking video and tracking configuration) ..."
+	sudo apt-get install -y golang
+fi
 
 # Euresys CoaxLink driver dependencies
 # See coaxlink-linux-x86_64-12.6.2.73$ ./shell/check-install.sh
-echo "Installing environment for the Euresys CoaxLink ..."
-sudo apt-get install -y libtinfo5 libgconf-2-4
-if [ -f '/opt/euresys/coaxlink/shell/setup_gentl_paths.sh' ]; then
-	. /opt/euresys/coaxlink/shell/setup_gentl_paths.sh
-else
-	echo "ERROR: environment variables initialization script of the Euresys CoaxLink driver is not found"
-	ERR=2  # ENOENT = 2 = No such file or directory
+whereis libtinfo | grep libtinfo > /dev/null
+ERR=$?
+if [ $ERR -eq 0 ]; then
+	whereis gconf | grep gconf > /dev/null
+	ERR=$?
+fi
+if [ $ERR -ne 0 ]; then
+	echo "Installing environment for the Euresys CoaxLink ..."
+	sudo apt-get install -y libtinfo5 libgconf-2-4
+fi
+if [ ! -f '/opt/euresys/coaxlink/shell/setup_gentl_paths.sh' ]; then
+	# Note:  && echo is used to print a new line
+	read -sp "Please, install the Euresys CoaxLink driver:
+https://www.euresys.com/en/Support/Software,-drivers-and-documentation?series=105d06c5-6ad9-42ff-b7ce-622585ce607f&os=Linux
+Press Enter when the driver appears in the system..." && echo
+	if [ ! -f '/opt/euresys/coaxlink/shell/setup_gentl_paths.sh' ]; then
+		echo "ERROR: environment variables initialization script of the Euresys CoaxLink driver is not found"
+		ERR=2  # ENOENT = 2 = No such file or directory
+	fi
 fi
 #echo "Installing the build environment for FORT:artemis (FORmicidae Tracker) ..."
 ## Note: requires some FORT:hermes dependences: libprotobuf-dev libasio-dev
@@ -77,7 +132,9 @@ fi
 #sudo apt install -y npm
 ##sudo npm install -g @angular/cli typescript
 
-ERR=$?
+if [ $ERR -eq 0 ]; then
+	ERR=$?
+fi
 if [ $ERR -ne 0 ]; then
 	echo "ERROR, installation of the build environment is failed, error code: $ERR"
 	exit $ERR

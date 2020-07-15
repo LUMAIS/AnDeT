@@ -55,6 +55,13 @@ git submodule update --recursive
 
 NBUILDS=0  # The number of all builds
 
+# Define environment variables related to the Frame Grabber, required to build dependent components (artemis)
+if [ -f '/opt/euresys/coaxlink/shell/setup_gentl_paths.sh' ]; then
+	. /opt/euresys/coaxlink/shell/setup_gentl_paths.sh
+else
+	echo "ERROR: environment variables initialization script of the Euresys CoaxLink driver is not found"
+fi
+
 # Build ant tracking app
 ERR_ARTM=0
 # -p to omit error if the directory is already exists

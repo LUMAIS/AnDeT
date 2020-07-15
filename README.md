@@ -12,7 +12,7 @@ Author of the extensions: Artem Lutov <lutov.analytics@gmail.com>
 > Anyway, all submodules are fetched automatically when installing requirements via the `build` script.
 
 Components:
-- `artems` to detect and track objects;
+- `artemis` to detect and track objects;
 - `leto` to configure the tracking;
 - `hermes` to define the tracking data format;
 - `fort-configuration` to deploy the server side, including the network configuration.
