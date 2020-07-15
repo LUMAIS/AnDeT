@@ -90,17 +90,19 @@ NBUILDS=$((NBUILDS+1))
 # Build server part of  tracking configuration (is deployed on a grabbing PC)
 ERR_LETO=0
 cd leto/leto && \
-go build -i . && \
+go build . && \
+# To build and put the binary into golang home:
+#go install .
 cd ../..
 # Clients to get live video streams
 #cd ../leto-cli
-#go build -i .
+#go build .
 ERR_LETO=$?
 NBUILDS=$((NBUILDS+1))
 
 ## Build web UI for the climate control (and for some other controls)
 #cd olympus
-#go build -i .
+#go build .
 ##go install .
 ##go get -u .
 ##

@@ -63,7 +63,7 @@ if [ $ERR -eq 0 ]; then
 fi
 if [ $ERR -ne 0 ]; then
 	echo "Installing build environment for hermes (tracking data format) ..."
-	sudo apt-get install -y golang libprotobuf-dev libasio-dev
+	sudo apt-get install -y golang libprotobuf-dev protobuf-compiler libasio-dev
 fi
 
 # artemis (object detection and tracking)
@@ -84,7 +84,7 @@ if [ $ERR -eq 0 ]; then
 fi
 if [ $ERR -ne 0 ]; then
 	echo "Installing build environment for artemis (object detection and tracking) ..."
-	sudo apt-get install -y libprotobuf-dev libopencv-dev libeigen3-dev libgoogle-glog-dev
+	sudo apt-get install -y libprotobuf-dev protobuf-compiler libopencv-dev libeigen3-dev libgoogle-glog-dev
 fi
 
 #  libasio-dev
@@ -131,6 +131,7 @@ fi
 #echo "Installing build environment for FORT:olympus (web UI) ..."
 #sudo apt install -y npm
 ##sudo npm install -g @angular/cli typescript
+
 
 if [ $ERR -eq 0 ]; then
 	ERR=$?
