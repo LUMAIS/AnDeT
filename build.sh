@@ -1,3 +1,5 @@
+#!/bin/bash
+# Note: setup_gentl_paths.sh requires bash
 #!/bin/sh
 #
 # \description  Build AnDeT components
@@ -53,11 +55,18 @@ git submodule update --recursive
 NBUILDS=0  # The number of all builds
 
 # Define environment variables related to the Frame Grabber, required to build dependent components (artemis)
-if [ -f '/opt/euresys/coaxlink/shell/setup_gentl_paths.sh' ]; then
-	. /opt/euresys/coaxlink/shell/setup_gentl_paths.sh
+if [ -f '/opt/euresys/egrabber/shell/setup_gentl_paths.sh' ]; then
+	#. /opt/euresys/coaxlink/shell/setup_gentl_paths.sh
+	. /opt/euresys/egrabber/shell/setup_gentl_paths.sh
 else
 	echo "ERROR: environment variables initialization script of the Euresys CoaxLink driver is not found"
 fi
+
+# Update session profile:
+export GENICAM_GENTL64_PATH=/opt/euresys/egrabber/lib/x86_64
+export EURESYS_COAXLINK_GENTL64_CTI=/opt/euresys/egrabber/lib/x86_64/coaxlink.cti
+export EURESYS_EGRABBER_LIB64=/opt/euresys/egrabber/lib/x86_64
+export EURESYS_DEFAULT_GENTL_PRODUCER=coaxlink
 
 # Build ant tracking app
 ERR_ARTM=0

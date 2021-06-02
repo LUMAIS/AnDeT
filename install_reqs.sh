@@ -102,7 +102,7 @@ if [ $ERR -ne 0 ]; then
 fi
 
 # Euresys CoaxLink driver dependencies
-# See coaxlink-linux-x86_64-12.6.2.73$ ./shell/check-install.sh
+# See coaxlink-linux-x86_64-13.0.1.32$ ./shell/check-install.sh
 whereis libtinfo | grep libtinfo > /dev/null
 ERR=$?
 if [ $ERR -eq 0 ]; then
@@ -113,12 +113,12 @@ if [ $ERR -ne 0 ]; then
 	echo "Installing environment for the Euresys CoaxLink ..."
 	sudo apt-get install -y libtinfo5 libgconf-2-4
 fi
-if [ ! -f '/opt/euresys/coaxlink/shell/setup_gentl_paths.sh' ]; then
+if [ ! -f '/opt/euresys/egrabber/shell/setup_gentl_paths.sh' ]; then
 	# Note:  && echo is used to print a new line
 	read -sp "Please, install the Euresys CoaxLink driver:
 https://www.euresys.com/en/Support/Software,-drivers-and-documentation?series=105d06c5-6ad9-42ff-b7ce-622585ce607f&os=Linux
 Press Enter when the driver appears in the system..." && echo
-	if [ ! -f '/opt/euresys/coaxlink/shell/setup_gentl_paths.sh' ]; then
+	if [ ! -f '/opt/euresys/egrabber/shell/setup_gentl_paths.sh' ]; then
 		echo "ERROR: environment variables initialization script of the Euresys CoaxLink driver is not found"
 		ERR=2  # ENOENT = 2 = No such file or directory
 	fi
