@@ -82,9 +82,19 @@ if [ $ERR -eq 0 ]; then
 	whereis glog | grep glog > /dev/null
 	ERR=$?
 fi
+if [ $ERR -eq 0 ]; then
+	# Note: glfw3 is not detectable via `whereis``
+	dpkg -l | grep libglfw3 > /dev/null
+	ERR=$?
+fi
+if [ $ERR -eq 0 ]; then
+	# Note: glew is not detectable via `whereis``
+	dpkg -l | grep libglew > /dev/null
+	ERR=$?
+fi
 if [ $ERR -ne 0 ]; then
 	echo "Installing build environment for artemis (object detection and tracking) ..."
-	sudo apt-get install -y libprotobuf-dev protobuf-compiler libopencv-dev libeigen3-dev libgoogle-glog-dev
+	sudo apt-get install -y libprotobuf-dev protobuf-compiler libopencv-dev libeigen3-dev libgoogle-glog-dev libglfw3-dev libglew-dev
 fi
 
 #  libasio-dev
