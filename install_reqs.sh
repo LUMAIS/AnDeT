@@ -11,6 +11,11 @@
 
 # Update and init all submodules
 git submodule update --init --recursive
+# MANUALLY UPDATE SUBMODULES TO THE LATEST UPSTREAMS WHEN REQUIRED
+# To merge latest remote upstream, they should be defined, and then (equivalent to running git pull in each submodule):
+# git submodule update --remote --merge
+# same as:  git submodule foreach git pull origin master
+
 
 # Common development packages required to build executables
 echo "Checking and installing common build environment ..."
@@ -92,9 +97,15 @@ if [ $ERR -eq 0 ]; then
 	dpkg -l | grep libglew > /dev/null
 	ERR=$?
 fi
+# artemis requires libboost-system
+if [ $ERR -eq 0 ]; then
+	# Note: boost-system is not detectable via `whereis``
+	dpkg -l | grep libboost-system > /dev/null
+	ERR=$?
+fi
 if [ $ERR -ne 0 ]; then
 	echo "Installing build environment for artemis (object detection and tracking) ..."
-	sudo apt-get install -y libprotobuf-dev protobuf-compiler libopencv-dev libeigen3-dev libgoogle-glog-dev libglfw3-dev libglew-dev
+	sudo apt-get install -y libprotobuf-dev protobuf-compiler libopencv-dev libeigen3-dev libgoogle-glog-dev libglfw3-dev libglew-dev libboost-system-dev
 fi
 
 #  libasio-dev
